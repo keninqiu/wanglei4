@@ -38,274 +38,356 @@
 <body id="smart-body" area="main">
     <input type="hidden" id="pageinfo" value="563" data-type="1" data-device="Pc" data-entityid="563">
     <input id="txtDeviceSwitchEnabled" value="show" type="hidden">
-<link href="./index_files/view.css" rel="stylesheet" type="text/css">
-<div class="m-deviceSwitch" style="">
-    <ul class="m-switch-ul f-clearfix">
-        <li class="m-switch-item active" data-device="Pc">
-            <a href="javascript:void(0)" class="m-switch-link z-current"><i class="icon icon-pc-black"></i></a>
-            <div class="lzprompt-plan" style="margin-left: -28px;"><span class="lzprompt-txt">点击预览PC版</span><span class="lzprompt-point lzprompt-point-bottom"></span></div>
-        </li>
-        <li class="m-switch-item" data-device="Mobile">
-            <a href="javascript:void(0)" class="m-switch-link"><i class="icon icon-mobile-black"></i></a>
-            <div class="lzprompt-plan" style="margin-left: -32px;"><span class="lzprompt-txt">点击预览手机版</span><span class="lzprompt-point lzprompt-point-bottom"></span></div>
-        </li>
-    </ul>
-</div>
-<input type="hidden" id="secUrl" data-host="c491485806.scd.wezhan.cn" data-pathname="/" data-search="" data-hash="">
+	<link href="./index_files/view.css" rel="stylesheet" type="text/css">
+	<div class="m-deviceSwitch" style="">
+	    <ul class="m-switch-ul f-clearfix">
+	  	      <li class="m-switch-item active" data-device="Pc">
+	            <a href="javascript:void(0)" class="m-switch-link z-current"><i class="icon icon-pc-black"></i></a>
+	            <div class="lzprompt-plan" style="margin-left: -28px;"><span class="lzprompt-txt">点击预览PC版</span><span class="lzprompt-point lzprompt-point-bottom"></span></div>
+	        </li>
+	        <li class="m-switch-item" data-device="Mobile">
+	            <a href="javascript:void(0)" class="m-switch-link"><i class="icon icon-mobile-black"></i></a>
+	            <div class="lzprompt-plan" style="margin-left: -32px;"><span class="lzprompt-txt">点击预览手机版</span><span class="lzprompt-point lzprompt-point-bottom"></span></div>
+	        </li>
+	    </ul>
+	</div>
+	<input type="hidden" id="secUrl" data-host="c491485806.scd.wezhan.cn" data-pathname="/" data-search="" data-hash="">
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
-    function initialDeviceSwitch() {
-        var pageinfo = $("#pageinfo");
-        var l = window.location;
-        if (pageinfo.length == 0 && window.frames.length > 0) {
-            pageinfo = $(window.frames[0].document).find("#pageinfo");
-            l = window.frames[0].document.location;
-        }
-        $(".m-deviceSwitch").show();
-        if (pageinfo.length == 0) {
-            $(".m-deviceSwitch").hide();
-            return;
-        }
-        $("#secUrl").attr("data-host", l.host).attr("data-pathname", l.pathname).attr("data-search", l.search).attr("data-hash", l.hash);
-        var pagedevice = pageinfo.attr("data-device");
-        $(".m-deviceSwitch").find("li[data-device=" + pagedevice + "]").addClass("active").find("a").addClass("z-current");
-        $(".m-deviceSwitch").find("li").not(".active").click(function () {
-            var secUrl = $("#secUrl");
-            var host = secUrl.attr("data-host");
-            var pathname = secUrl.attr("data-pathname");
-            var search = secUrl.attr("data-search");
-            var hash = secUrl.attr("data-hash");
-            var npagedevice = $(this).attr("data-device");
-            var mobileUrl = "http://" + host;
-            if (npagedevice == "Pc") {
-                mobileUrl = mobileUrl + pathname + search.replace("deviceModel=mobile", "deviceModel=pc") + hash;
-            } else if (npagedevice == "Mobile") {
-                var toUrl = pathname + search.replace("deviceModel=pc", "deviceModel=mobile") + hash;
-                mobileUrl = mobileUrl + "/Runtime/MobileContainer?url=" + encodeURIComponent(toUrl);
-            }
-            // change device
-            $.ajax({
-                cache: false,
-                url: "/Common/ChangeRunTimeDeviceMode",
-                type: "post",
-                data: { type: npagedevice },
-                dataType: "json",
-                success: function (result) {
-                    if (result.IsSuccess) {
-                        window.top.location.href = mobileUrl;
-                    }
-                },
-                error: function () { }
-            });
-        });
-    }
-    $(function () {
-        if ($("#prevMainFrame").length > 0) {
-            $("#prevMainFrame").load(initialDeviceSwitch);
-        } else {
-            initialDeviceSwitch();
-        }
-    });
-</script>    <div id="mainContentWrapper" style="background-color: transparent; background-image: none; background-repeat: no-repeat;background-position:0 0; background:-moz-linear-gradient(top, none, none);background:-webkit-gradient(linear, left top, left bottom, from(none), to(none));background:-o-linear-gradient(top, none, none);background:-ms-linear-gradient(top, none, none);background:linear-gradient(top, none, none);;
+	    function initialDeviceSwitch() {
+	        var pageinfo = $("#pageinfo");
+	        var l = window.location;
+	        if (pageinfo.length == 0 && window.frames.length > 0) {
+	            pageinfo = $(window.frames[0].document).find("#pageinfo");
+	            l = window.frames[0].document.location;
+	        }
+	        $(".m-deviceSwitch").show();
+	        if (pageinfo.length == 0) {
+	            $(".m-deviceSwitch").hide();
+	            return;
+	        }
+	        $("#secUrl").attr("data-host", l.host).attr("data-pathname", l.pathname).attr("data-search", l.search).attr("data-hash", l.hash);
+	        var pagedevice = pageinfo.attr("data-device");
+	        $(".m-deviceSwitch").find("li[data-device=" + pagedevice + "]").addClass("active").find("a").addClass("z-current");
+	        $(".m-deviceSwitch").find("li").not(".active").click(function () {
+	            var secUrl = $("#secUrl");
+	            var host = secUrl.attr("data-host");
+	            var pathname = secUrl.attr("data-pathname");
+	            var search = secUrl.attr("data-search");
+	            var hash = secUrl.attr("data-hash");
+	            var npagedevice = $(this).attr("data-device");
+	            var mobileUrl = "http://" + host;
+	            if (npagedevice == "Pc") {
+	                mobileUrl = mobileUrl + pathname + search.replace("deviceModel=mobile", "deviceModel=pc") + hash;
+	            } else if (npagedevice == "Mobile") {
+	                var toUrl = pathname + search.replace("deviceModel=pc", "deviceModel=mobile") + hash;
+	                mobileUrl = mobileUrl + "/Runtime/MobileContainer?url=" + encodeURIComponent(toUrl);
+	            }
+	            // change device
+	            $.ajax({
+	                cache: false,
+	                url: "/Common/ChangeRunTimeDeviceMode",
+	                type: "post",
+	                data: { type: npagedevice },
+	                dataType: "json",
+	                success: function (result) {
+	                    if (result.IsSuccess) {
+	                        window.top.location.href = mobileUrl;
+	                    }
+	                },
+	                error: function () { }
+	            });
+	        });
+	    }
+	    $(function () {
+	        if ($("#prevMainFrame").length > 0) {
+	            $("#prevMainFrame").load(initialDeviceSwitch);
+	        } else {
+	            initialDeviceSwitch();
+	        }
+	    });
+	</script>    
+	<div id="mainContentWrapper" style="background-color: transparent; background-image: none; background-repeat: no-repeat;background-position:0 0; background:-moz-linear-gradient(top, none, none);background:-webkit-gradient(linear, left top, left bottom, from(none), to(none));background:-o-linear-gradient(top, none, none);background:-ms-linear-gradient(top, none, none);background:linear-gradient(top, none, none);;
      position: relative; width: 100%;min-width:1000px;background-size: auto;" bgscroll="none">
-    <div style="background-color: transparent; background-image: none; background-repeat: no-repeat;background-position:0 0; background:-moz-linear-gradient(top, none, none);background:-webkit-gradient(linear, left top, left bottom, from(none), to(none));background:-o-linear-gradient(top, none, none);background:-ms-linear-gradient(top, none, none);background:linear-gradient(top, none, none);;
-         position: relative; width: 100%;min-width:1000px;background-size: auto;" bgscroll="none">
-        <div class=" header" cpid="216" id="smv_Area0" style="width: 1000px; height: 742px;  position: relative; margin: 0 auto">
-            <div id="smv_tem_3_57" ctype="image" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="False" pvid="" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 44px; width: 101px; left: 0px; top: 25px;z-index:3;"><div class="yibuFrameContent tem_3_57  image_Style1  " style="overflow:visible;;">
-<div class="w-image-box" data-filltype="1" id="div_tem_3_57" style="height: 44px;">
-    <a target="_self">
-        <img src="./index_files/-14612.png" alt="logo" title="logo" id="img_smv_tem_3_57" style="width: auto; height: 44px; margin-left: -1.17442px; margin-top: 0px;">
-    </a>
-</div>
+	    <div style="background-color: transparent; background-image: none; background-repeat: no-repeat;background-position:0 0; background:-moz-linear-gradient(top, none, none);background:-webkit-gradient(linear, left top, left bottom, from(none), to(none));background:-o-linear-gradient(top, none, none);background:-ms-linear-gradient(top, none, none);background:linear-gradient(top, none, none);;
+	         position: relative; width: 100%;min-width:1000px;background-size: auto;" bgscroll="none">
+	        <div class=" header" cpid="216" id="smv_Area0" style="width: 1000px; height: 742px;  position: relative; margin: 0 auto">
+	            <div id="smv_tem_3_57" ctype="image" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="False" pvid="" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 44px; width: 101px; left: 0px; top: 25px;z-index:3;">
+	            	<div class="yibuFrameContent tem_3_57  image_Style1  " style="overflow:visible;;">
+						<div class="w-image-box" data-filltype="1" id="div_tem_3_57" style="height: 44px;">
+					    <a target="_self">
+					        <img src="./index_files/-14612.png" alt="logo" title="logo" id="img_smv_tem_3_57" style="width: auto; height: 44px; margin-left: -1.17442px; margin-top: 0px;">
+					    </a>
+					</div>
 
-<script type="text/javascript">
-    $(function () {
-        InitImageSmv("tem_3_57", "101", "44", "1");
-    });
-</script>
+					<script type="text/javascript">
+					    $(function () {
+					        InitImageSmv("tem_3_57", "101", "44", "1");
+					    });
+					</script>
 
-</div></div><div id="smv_tem_2_35" ctype="nav" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="False" pvid="" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 56px; width: 786px; left: 214px; top: 19px;z-index:2;"><div class="yibuFrameContent tem_2_35  nav_Style1  " style="overflow:visible;;"><div id="nav_tem_2_35" class="nav_pc_t_1">
-    <ul class="w-nav" navstyle="style1" style="height: 56px; width: 786px;">
-                <li class="w-nav-inner" style="height:56px;line-height:56px;width:20%;">
-                    <div class="w-nav-item">
-                        <i class="w-nav-item-line"></i>
-                                <a href="http://c491485806.scd.wezhan.cn/sy" target="_self" class="w-nav-item-link">
-                                    <span class="mw-iconfont"></span>
-                                    <span class="w-link-txt">首页</span>
-                                </a>
-                       
-                    </div>
-                </li>
-                <li class="w-nav-inner" style="height:56px;line-height:56px;width:20%;">
-                    <div class="w-nav-item">
-                        <i class="w-nav-item-line"></i>
-                                <a href="http://c491485806.scd.wezhan.cn/wmdfw" target="_self" class="w-nav-item-link">
-                                    <span class="mw-iconfont"></span>
-                                    <span class="w-link-txt">我们的服务</span>
-                                </a>
-                       
-                    </div>
-                </li>
-                <li class="w-nav-inner" style="height:56px;line-height:56px;width:20%;">
-                    <div class="w-nav-item">
-                        <i class="w-nav-item-line"></i>
-                                <a href="http://c491485806.scd.wezhan.cn/alzs" target="_self" class="w-nav-item-link">
-                                    <span class="mw-iconfont"></span>
-                                    <span class="w-link-txt">案例展示</span>
-                                </a>
-                       
-                    </div>
-                </li>
-                <li class="w-nav-inner" style="height:56px;line-height:56px;width:20%;">
-                    <div class="w-nav-item">
-                        <i class="w-nav-item-line"></i>
-                                <a href="http://c491485806.scd.wezhan.cn/jjfa" target="_self" class="w-nav-item-link">
-                                    <span class="mw-iconfont"></span>
-                                    <span class="w-link-txt">解决方案</span>
-                                </a>
-                       
-                    </div>
-                </li>
-                <li class="w-nav-inner" style="height:56px;line-height:56px;width:20%;">
-                    <div class="w-nav-item">
-                        <i class="w-nav-item-line"></i>
-                                <a href="http://c491485806.scd.wezhan.cn/lxwm" target="_self" class="w-nav-item-link">
-                                    <span class="mw-iconfont"></span>
-                                    <span class="w-link-txt">联系我们</span>
-                                </a>
-                       
-                    </div>
-                </li>
+				</div>
+			</div>
+			<div id="smv_tem_2_35" ctype="nav" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="False" pvid="" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 56px; width: 786px; left: 214px; top: 19px;z-index:2;">
+				<div class="yibuFrameContent tem_2_35  nav_Style1  " style="overflow:visible;;">
+					<div id="nav_tem_2_35" class="nav_pc_t_1">
+					    <ul class="w-nav" navstyle="style1" style="height: 56px; width: 786px;">
+					                <li class="w-nav-inner" style="height:56px;line-height:56px;width:20%;">
+					                    <div class="w-nav-item">
+					                        <i class="w-nav-item-line"></i>
+					                                <a href="http://c491485806.scd.wezhan.cn/sy" target="_self" class="w-nav-item-link">
+					                                    <span class="mw-iconfont"></span>
+					                                    <span class="w-link-txt">首页</span>
+					                                </a>
+					                       
+					                    </div>
+					                </li>
+					                <li class="w-nav-inner" style="height:56px;line-height:56px;width:20%;">
+					                    <div class="w-nav-item">
+					                        <i class="w-nav-item-line"></i>
+					                                <a href="http://c491485806.scd.wezhan.cn/wmdfw" target="_self" class="w-nav-item-link">
+					                                    <span class="mw-iconfont"></span>
+					                                    <span class="w-link-txt">我们的服务</span>
+					                                </a>
+					                       
+					                    </div>
+					                </li>
+					                <li class="w-nav-inner" style="height:56px;line-height:56px;width:20%;">
+					                    <div class="w-nav-item">
+					                        <i class="w-nav-item-line"></i>
+					                                <a href="http://c491485806.scd.wezhan.cn/alzs" target="_self" class="w-nav-item-link">
+					                                    <span class="mw-iconfont"></span>
+					                                    <span class="w-link-txt">案例展示</span>
+					                                </a>
+					                       
+					                    </div>
+					                </li>
+					                <li class="w-nav-inner" style="height:56px;line-height:56px;width:20%;">
+					                    <div class="w-nav-item">
+					                        <i class="w-nav-item-line"></i>
+					                                <a href="http://c491485806.scd.wezhan.cn/jjfa" target="_self" class="w-nav-item-link">
+					                                    <span class="mw-iconfont"></span>
+					                                    <span class="w-link-txt">解决方案</span>
+					                                </a>
+					                       
+					                    </div>
+					                </li>
+					                <li class="w-nav-inner" style="height:56px;line-height:56px;width:20%;">
+					                    <div class="w-nav-item">
+					                        <i class="w-nav-item-line"></i>
+					                                <a href="http://c491485806.scd.wezhan.cn/lxwm" target="_self" class="w-nav-item-link">
+					                                    <span class="mw-iconfont"></span>
+					                                    <span class="w-link-txt">联系我们</span>
+					                                </a>
+					                       
+					                    </div>
+					                </li>
 
-    </ul>
-</div>
-<script>
-    $(function () {
-        var $nav = $("#smv_tem_2_35 .w-nav");
-        var $inner = $("#smv_tem_2_35 .w-nav-inner");
-        var rightBorder = parseInt($nav.css("border-right-width"));
-        var leftBorder = parseInt($nav.css("border-left-width"));
-        var topBorder = parseInt($nav.css("border-top-width"));
-        var bottomBorder = parseInt($nav.css("border-bottom-width"));
-        var height = $("#smv_tem_2_35").height();
-        var width = $('#smv_tem_2_35').width();
-        $nav.height(height - topBorder - bottomBorder);
-        $nav.width(width - leftBorder - rightBorder);
-        $inner.height(height - topBorder - bottomBorder).css("line-height", height - topBorder - bottomBorder+"px");
+					    </ul>
+					</div>
+					<script>
+					    $(function () {
+					        var $nav = $("#smv_tem_2_35 .w-nav");
+					        var $inner = $("#smv_tem_2_35 .w-nav-inner");
+					        var rightBorder = parseInt($nav.css("border-right-width"));
+					        var leftBorder = parseInt($nav.css("border-left-width"));
+					        var topBorder = parseInt($nav.css("border-top-width"));
+					        var bottomBorder = parseInt($nav.css("border-bottom-width"));
+					        var height = $("#smv_tem_2_35").height();
+					        var width = $('#smv_tem_2_35').width();
+					        $nav.height(height - topBorder - bottomBorder);
+					        $nav.width(width - leftBorder - rightBorder);
+					        $inner.height(height - topBorder - bottomBorder).css("line-height", height - topBorder - bottomBorder+"px");
 
 
-        $('#nav_tem_2_35').find('.w-subnav').hide();
-        var $this, item, itemAll;
-        $('#nav_tem_2_35').off('mouseenter').on('mouseenter', '.w-nav-inner', function () {
-            itemAll = $('#nav_tem_2_35').find('.w-subnav');
-            $this = $(this);
-            item = $this.find('.w-subnav');
-            item.slideDown();
-        }).off('mouseleave').on('mouseleave', '.w-nav-inner', function () {
-            item = $(this).find('.w-subnav');
-            item.stop().slideUp(function () {
-                ////设置回调，防止slidUp自动加上height和width导致在子导航中设置height和width无效
-                //item.css({
-                //    height: '',
-                //    width: ''
-                //})
-            });
-        });
-        SetNavSelectedStyle('nav_tem_2_35');//选中当前导航
-    });
+					        $('#nav_tem_2_35').find('.w-subnav').hide();
+					        var $this, item, itemAll;
+					        $('#nav_tem_2_35').off('mouseenter').on('mouseenter', '.w-nav-inner', function () {
+					            itemAll = $('#nav_tem_2_35').find('.w-subnav');
+					            $this = $(this);
+					            item = $this.find('.w-subnav');
+					            item.slideDown();
+					        }).off('mouseleave').on('mouseleave', '.w-nav-inner', function () {
+					            item = $(this).find('.w-subnav');
+					            item.stop().slideUp(function () {
+					                ////设置回调，防止slidUp自动加上height和width导致在子导航中设置height和width无效
+					                //item.css({
+					                //    height: '',
+					                //    width: ''
+					                //})
+					            });
+					        });
+					        SetNavSelectedStyle('nav_tem_2_35');//选中当前导航
+					    });
 
-</script></div></div><div id="smv_tem_51_47" ctype="slideset" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="True" pvid="" tareaid="Area0" re-direction="y" daxis="Y" isdeletable="True" style="height: 650px; width: 1000px; left: 0px; top: 89px;z-index:0;" selectarea="Area1"><div class="yibuFrameContent tem_51_47  slideset_Style1  " style="overflow:visible;;">
-<!--w-slide-->
-<div class="w-slide"  data-jssor-slider="1" style="left: -137px; width: 1274px; visibility: visible; height: 650px;">
-    <div style="position: absolute; display: block; top: 0px; left: 0px; width: 1274px; height: 650px;"><div style="position: absolute; display: block; top: 0px; left: 0px; width: 1274px; height: 650px;" data-scale-ratio="1" id="slider_smv_tem_51_47">
-    	<div class="w-slide-inner" data-u="slides" style="width: 1274px; z-index: 0; position: absolute; top: 0px; left: 0px;">
-    		<div style="top: 0px; left: -1274px; width: 1274px; height: 650px; position: absolute; z-index: 0; pointer-events: none;"></div>
-    	</div>
-    	<div class="w-slide-inner" data-u="slides" style="width: 1274px; z-index: 0; position: absolute; overflow: hidden; top: 0px; left: 0px;">
+					</script>
+				</div>
+			</div>
 
-            <div class="content-box" data-area="Area0" style="z-index: 1; top: 0px; left: 1274px; width: 1274px; height: 650px; position: absolute; overflow: hidden;">
-                <div id="smc_Area0" cid="tem_51_47" class="smAreaC slideset_AreaC" style="z-index: 1; width: 1000px; position: relative; margin: 0px auto;">
-                    <div id="smv_tem_67_7" ctype="area" smanim="{&quot;delay&quot;:0.75,&quot;duration&quot;:0.75,&quot;direction&quot;:&quot;Down&quot;,&quot;animationName&quot;:&quot;slideIn&quot;,&quot;infinite&quot;:&quot;1&quot;}" class="esmartMargin smartAbs animated" cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="True" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 218px; width: 467px; left: 45px; top: 204px; z-index: 1; opacity: 0;" smexecuted="1" sm-finished="true"><div class="yibuFrameContent tem_67_7  area_Style1  " style="overflow: visible; z-index: 1;"><div class="w-container" style="z-index: 1;">
-    <div class="smAreaC" id="smc_Area0" cid="tem_67_7" style="z-index: 1;">
-        <div id="smv_tem_69_50" ctype="button" smanim="{&quot;delay&quot;:0.75,&quot;duration&quot;:0.75,&quot;direction&quot;:&quot;&quot;,&quot;animationName&quot;:&quot;bounceIn&quot;,&quot;infinite&quot;:&quot;1&quot;}" class="esmartMargin smartAbs animated" cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="False" pvid="tem_67_7" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 42px; width: 289px; left: 89px; top: 128px; z-index: 9; opacity: 0;" smexecuted="1" sm-finished="true"><div class="yibuFrameContent tem_69_50  button_Style1  " style="overflow: visible; z-index: 1;"><a target="_self" href="http://c491485806.scd.wezhan.cn/jjfa" class="w-button f-ellipsis" style="width: 287px; height: 40px; line-height: 40px; z-index: 1;">
-    <span class="w-button-position" style="z-index: 1;">
-        <em class="w-button-text f-ellipsis" style="z-index: 1;">
-            <i class="mw-iconfont w-button-icon w-icon-hide" style="z-index: 1;"></i>互联网解决方案
-        </em>
-    </span>
-</a>
-    <script type="text/javascript" style="z-index: 1;">
-        $(function () {
-        });
-    </script>
-</div></div>    </div>
-</div></div></div><div id="smv_tem_71_56" ctype="text" smanim="{&quot;delay&quot;:0.75,&quot;duration&quot;:0.75,&quot;direction&quot;:&quot;Up&quot;,&quot;animationName&quot;:&quot;slideIn&quot;,&quot;infinite&quot;:&quot;1&quot;}" class="esmartMargin smartAbs animated" cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="False" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 112px; width: 584px; left: -1px; top: 220px; z-index: 11; opacity: 0;" smexecuted="1" sm-finished="true"><div class="yibuFrameContent tem_71_56  text_Style1  " style="overflow: hidden; z-index: 1;"><div id="txt_tem_71_56" style="height: 100%; z-index: 1;">
-    <div class="editableContent" id="txtc_tem_71_56" style="height: 100%; word-wrap: break-word; z-index: 1;">
-        <p style="text-align: center; z-index: 1;"><span style="line-height: 1.75; z-index: 1;"><span style="color: rgb(255, 255, 255); z-index: 1;"><span style="font-size: 36px; z-index: 1;"><strong style="z-index: 1;"><span style="font-family: &quot;Microsoft YaHei&quot;; z-index: 1;">您的问题 我们“对症下药”</span></strong></span><br style="z-index: 1;">
-<span style="font-size: 20px; z-index: 1;"><span style="font-family: Arial, Helvetica, sans-serif; z-index: 1;">The Internet is a problem for us</span></span></span></span></p>
+			<div id="smv_tem_51_47" ctype="slideset" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="True" pvid="" tareaid="Area0" re-direction="y" daxis="Y" isdeletable="True" style="height: 650px; width: 1000px; left: 0px; top: 89px;z-index:0;" selectarea="Area1">
+				<div class="yibuFrameContent tem_51_47  slideset_Style1"  style="overflow:visible;;">
+					<!--w-slide-->
+					<div class="w-slide"  data-jssor-slider="1" style="left: -137px; width: 1274px; visibility: visible; height: 650px;">
+    					<div style="position: absolute; display: block; top: 0px; left: 0px; width: 1274px; height: 650px;">
+    						<div style="position: absolute; display: block; top: 0px; left: 0px; width: 1274px; height: 650px;" data-scale-ratio="1" id="slider_smv_tem_51_47">
+    							<div class="w-slide-inner"  style="width: 1274px; z-index: 0; position: absolute; top: 0px; left: 0px;">
+    								<div style="top: 0px; left: -1274px; width: 1274px; height: 650px; position: absolute; z-index: 0; pointer-events: none;">
+    								</div>
+    							</div>
+    							<div class="w-slide-inner" data-u="slides" style="width: 1274px; z-index: 0; position: absolute; overflow: hidden; top: 0px; left: 0px;">
 
-    </div>
-</div>
-</div></div>                </div>
-                <div class="content-box-inner" style="background-image: url(index_files/-32937.jpg); background-position: 100% 50%; background-size: cover; background-color: rgb(255, 255, 255); opacity: 1; z-index: 1;"></div>
+            						<div class="content-box" data-area="Area0" style="z-index: 1; top: 0px; left: 1274px; width: 1274px; height: 650px; position: absolute; overflow: hidden;">
+                						<div id="smc_Area0" cid="tem_51_47" class="smAreaC slideset_AreaC" style="z-index: 1; width: 1000px; position: relative; margin: 0px auto;">
+                    						<div id="smv_tem_67_7" ctype="area" smanim="{&quot;delay&quot;:0.75,&quot;duration&quot;:0.75,&quot;direction&quot;:&quot;Down&quot;,&quot;animationName&quot;:&quot;slideIn&quot;,&quot;infinite&quot;:&quot;1&quot;}" class="esmartMargin smartAbs animated" cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="True" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 218px; width: 467px; left: 45px; top: 204px; z-index: 1; opacity: 0;" smexecuted="1" sm-finished="true">
+                    							<div class="yibuFrameContent tem_67_7  area_Style1  " style="overflow: visible; z-index: 1;">
+                    								<div class="w-container" style="z-index: 1;">
+    													<div class="smAreaC" id="smc_Area0" cid="tem_67_7" style="z-index: 1;">
+        													<div id="smv_tem_69_50" ctype="button" smanim="{&quot;delay&quot;:0.75,&quot;duration&quot;:0.75,&quot;direction&quot;:&quot;&quot;,&quot;animationName&quot;:&quot;bounceIn&quot;,&quot;infinite&quot;:&quot;1&quot;}" class="esmartMargin smartAbs animated" cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="False" pvid="tem_67_7" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 42px; width: 289px; left: 89px; top: 128px; z-index: 9; opacity: 0;" smexecuted="1" sm-finished="true">
+        														<div class="yibuFrameContent tem_69_50  button_Style1  " style="overflow: visible; z-index: 1;">
+        															<a target="_self" href="http://c491485806.scd.wezhan.cn/jjfa" class="w-button f-ellipsis" style="width: 287px; height: 40px; line-height: 40px; z-index: 1;">
+																	    <span class="w-button-position" style="z-index: 1;">
+																	        <em class="w-button-text f-ellipsis" style="z-index: 1;">
+																	            <i class="mw-iconfont w-button-icon w-icon-hide" style="z-index: 1;"></i>互联网解决方案
+																	        </em>
+																	    </span>
+																	</a>
 
-            <div style="top: 0px; left: 0px; width: 1274px; height: 650px; z-index: 1000; display: none;"></div></div>
-            <div class="content-box" data-area="Area1" style="z-index: 1; top: 0px; left: 0px; width: 1274px; height: 650px; position: absolute; overflow: hidden;">
-                <div id="smc_Area1" cid="tem_51_47" class="smAreaC slideset_AreaC" style="z-index: 1; width: 1000px; position: relative; margin: 0px auto;">
-                    <div id="smv_tem_72_47" ctype="text" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area1" iscontainer="False" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 52px; width: 833px; left: -1px; top: 197px; z-index: 5;"><div class="yibuFrameContent tem_72_47  text_Style1  " style="overflow: hidden; z-index: 1;"><div id="txt_tem_72_47" style="height: 100%; z-index: 1;">
-    <div class="editableContent" id="txtc_tem_72_47" style="height: 100%; word-wrap: break-word; z-index: 1;">
-        <p style="text-align: center; z-index: 1;"><strong style="z-index: 1;"><span style="line-height: 1; z-index: 1;"><span style="color: rgb(255, 255, 255); z-index: 1;"><span style="font-family: &quot;Microsoft YaHei&quot;; z-index: 1;"><span style="font-size: 36px; z-index: 1;">互联网解决方案</span></span></span></span></strong></p>
+																</div>
+															</div>    
+														</div>
+													</div>
+												</div>
+											</div>
+											<div id="smv_tem_71_56" ctype="text" smanim="{&quot;delay&quot;:0.75,&quot;duration&quot;:0.75,&quot;direction&quot;:&quot;Up&quot;,&quot;animationName&quot;:&quot;slideIn&quot;,&quot;infinite&quot;:&quot;1&quot;}" class="esmartMargin smartAbs animated" cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area0" iscontainer="False" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 112px; width: 584px; left: -1px; top: 220px; z-index: 11; opacity: 0;" smexecuted="1" sm-finished="true">
+												<div class="yibuFrameContent tem_71_56  text_Style1  " style="overflow: hidden; z-index: 1;">
+													<div id="txt_tem_71_56" style="height: 100%; z-index: 1;">
+    
+    													<div class="editableContent" id="txtc_tem_71_56" style="height: 100%; word-wrap: break-word; z-index: 1;">
+        													<p style="text-align: center; z-index: 1;">
+        														<span style="line-height: 1.75; z-index: 1;">
+        															<span style="color: rgb(255, 255, 255); z-index: 1;">
+        																<span style="font-size: 36px; z-index: 1;">
+        																	<strong style="z-index: 1;">
+        																		<span style="font-family: &quot;Microsoft YaHei&quot;; z-index: 1;">您的问题 我们“对症下药”</span>
+        																	</strong>
+        																</span>
+        																<br style="z-index: 1;">
+																		<span style="font-size: 20px; z-index: 1;">
+																			<span style="font-family: Arial, Helvetica, sans-serif; z-index: 1;">The Internet is a problem for us</span>
+																		</span>
+																	</span>
+																</span>
+															</p>
 
-    </div>
-</div>
-</div></div><div id="smv_tem_74_51" ctype="text" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item1" areaid="Area1" iscontainer="False" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 112px; width: 672px; left: 44px; top: 257px; z-index: 7;"><div class="yibuFrameContent tem_74_51  text_Style1  " style="overflow: hidden; z-index: 1;"><div id="txt_tem_74_51" style="height: 100%; z-index: 1;">
-    <div class="editableContent" id="txtc_tem_74_51" style="height: 100%; word-wrap: break-word; z-index: 1;">
-        <p style="text-align: center; z-index: 1;"><span style="line-height: 1.75; z-index: 1;"><span style="color: rgb(255, 255, 255); z-index: 1;"><span style="font-size: 16px; z-index: 1;"><span style="font-family: &quot;Microsoft YaHei&quot;; z-index: 1;">专注为个人开发者用户、中小型企业用户、大型用户提供一站式核心网络云端部署服务。作为国内领先的云计算服务商，EXE云有着完善的行业解决方案和卓越的云计算技术。</span></span></span></span></p>
+														</div>
+													</div>
+												</div>
+											</div>                
+										</div>
+						                <div class="content-box-inner" style="background-image: url(index_files/-32937.jpg); background-position: 100% 50%; background-size: cover; background-color: rgb(255, 255, 255); opacity: 1; z-index: 1;">
+						                	
+						                </div>
 
-    </div>
-</div>
-</div></div><div id="smv_tem_75_24" ctype="button" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area1" iscontainer="False" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 40px; width: 135px; left: 237px; top: 367px; z-index: 8;"><div class="yibuFrameContent tem_75_24  button_Style1  " style="overflow: visible; z-index: 1;"><a target="_self" href="http://c491485806.scd.wezhan.cn/wmdfw" class="w-button f-ellipsis" style="width: 133px; height: 38px; line-height: 38px; z-index: 1;">
-    <span class="w-button-position" style="z-index: 1;">
-        <em class="w-button-text f-ellipsis" style="z-index: 1;">
-            <i class="mw-iconfont w-button-icon w-icon-hide" style="z-index: 1;"></i>了解更多
-        </em>
-    </span>
-</a>
-    <script type="text/javascript" style="z-index: 1;">
-        $(function () {
-        });
-    </script>
-</div></div><div id="smv_tem_76_10" ctype="button" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area1" iscontainer="False" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 40px; width: 135px; left: 467px; top: 367px; z-index: 8;"><div class="yibuFrameContent tem_76_10  button_Style1  " style="overflow: visible; z-index: 1;"><a target="_self" href="http://c491485806.scd.wezhan.cn/lxwm" class="w-button f-ellipsis" style="width: 133px; height: 38px; line-height: 38px; z-index: 1;">
-    <span class="w-button-position" style="z-index: 1;">
-        <em class="w-button-text f-ellipsis" style="z-index: 1;">
-            <i class="mw-iconfont w-button-icon w-icon-hide" style="z-index: 1;"></i>立即咨询
-        </em>
-    </span>
-</a>
-    <script type="text/javascript" style="z-index: 1;">
-        $(function () {
-        });
-    </script>
-</div></div>                </div>
-                <div class="content-box-inner" style="background-image: url(index_files/-32936.jpg); background-position: 100% 0px; background-size: cover; background-color: rgb(255, 255, 255); opacity: 1; z-index: 1;"></div>
+            							<div style="top: 0px; left: 0px; width: 1274px; height: 650px; z-index: 1000; display: none;"></div>
+            						</div>
+            						<div class="content-box" data-area="Area1" style="z-index: 1; top: 0px; left: 0px; width: 1274px; height: 650px; position: absolute; overflow: hidden;">
+                					<div id="smc_Area1" cid="tem_51_47" class="smAreaC slideset_AreaC" style="z-index: 1; width: 1000px; position: relative; margin: 0px auto;">
+                    					<div id="smv_tem_72_47" ctype="text" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area1" iscontainer="False" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 52px; width: 833px; left: -1px; top: 197px; z-index: 5;">
+                    						<div class="yibuFrameContent tem_72_47  text_Style1  " style="overflow: hidden; z-index: 1;">
+                    							<div id="txt_tem_72_47" style="height: 100%; z-index: 1;">
+    												<div class="editableContent" id="txtc_tem_72_47" style="height: 100%; word-wrap: break-word; z-index: 1;">
+        												<p style="text-align: center; z-index: 1;">
+        													<strong style="z-index: 1;">
+        														<span style="line-height: 1; z-index: 1;">
+        															<span style="color: rgb(255, 255, 255); z-index: 1;">
+        																<span style="font-family: &quot;Microsoft YaHei&quot;; z-index: 1;">
+        																	<span style="font-size: 36px; z-index: 1;">互联网解决方案</span>
+        																</span>
+        															</span>
+        														</span>
+        													</strong>
+        												</p>
 
-            <div style="top: 0px; left: 0px; width: 1274px; height: 650px; z-index: 1000; display: none;"></div></div>
-    </div></div></div>
-    <!-- Bullet Navigator -->
-    <div style="position: absolute; display: block; right: 16px; bottom: 16px; left: 617px; width: 40px; height: 15px;"><div data-u="navigator" class="w-slide-btn-box " data-autocenter="1" data-scale-ratio="1" style="width: 40px; left: 0px; height: 15px; top: 0px;">
-        <!-- bullet navigator item prototype -->
-        
-    <div class="w-slide-btn" data-u="prototype" data-jssor-button="1" style="position: absolute; left: 0px; top: 0px;"></div><div class="w-slide-btn w-slide-btnav" data-u="prototype" data-jssor-button="1" style="position: absolute; left: 25px; top: 0px;"></div></div></div>
+												    </div>
+												</div>
+											</div>
+										</div>
+										<div id="smv_tem_74_51" ctype="text" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item1" areaid="Area1" iscontainer="False" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 112px; width: 672px; left: 44px; top: 257px; z-index: 7;">
+											<div class="yibuFrameContent tem_74_51  text_Style1  " style="overflow: hidden; z-index: 1;">
+												<div id="txt_tem_74_51" style="height: 100%; z-index: 1;">
+    												<div class="editableContent" id="txtc_tem_74_51" style="height: 100%; word-wrap: break-word; z-index: 1;">
+        												<p style="text-align: center; z-index: 1;">
+        													<span style="line-height: 1.75; z-index: 1;">
+        														<span style="color: rgb(255, 255, 255); z-index: 1;">
+        															<span style="font-size: 16px; z-index: 1;">
+        																<span style="font-family: &quot;Microsoft YaHei&quot;; z-index: 1;">专注为个人开发者用户、中小型企业用户、大型用户提供一站式核心网络云端部署服务。作为国内领先的云计算服务商，EXE云有着完善的行业解决方案和卓越的云计算技术。</span>
+        															</span>
+        														</span>
+        													</span>
+        												</p>
 
-    <!-- 1Arrow Navigator -->
-    <div style="position: absolute; display: block; top: 316px; left: 10px; width: 18px; height: 18px;"><span data-u="arrowleft" class="w-slide-arrowl slideArrow" data-autocenter="2" id="left_tem_51_47" data-jssor-button="1" data-scale-ratio="1" style="top: 0px; left: 0px;">
-        <i class="w-itemicon mw-iconfont">넳</i>
-    </span></div>
-    <div style="position: absolute; display: block; top: 316px; right: 10px; width: 18px; height: 18px;"><span data-u="arrowright" class="w-slide-arrowr slideArrow" data-autocenter="2" id="right_tem_51_47" data-jssor-button="1" data-scale-ratio="1" style="top: 0px; left: 0px;">
-        <i class="w-itemicon mw-iconfont">넲</i>
-    </span></div>
-</div>
+												    </div>
+												</div>
+											</div>
+										</div>
+										<div id="smv_tem_75_24" ctype="button" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area1" iscontainer="False" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 40px; width: 135px; left: 237px; top: 367px; z-index: 8;">
+											<div class="yibuFrameContent tem_75_24  button_Style1  " style="overflow: visible; z-index: 1;">
+												<a target="_self" href="http://c491485806.scd.wezhan.cn/wmdfw" class="w-button f-ellipsis" style="width: 133px; height: 38px; line-height: 38px; z-index: 1;">
+												    <span class="w-button-position" style="z-index: 1;">
+												        <em class="w-button-text f-ellipsis" style="z-index: 1;">
+												            <i class="mw-iconfont w-button-icon w-icon-hide" style="z-index: 1;"></i>了解更多
+												        </em>
+												    </span>
+												</a>
+
+											</div>
+										</div>
+										<div id="smv_tem_76_10" ctype="button" class="esmartMargin smartAbs " cpid="216" cstyle="Style1" ccolor="Item0" areaid="Area1" iscontainer="False" pvid="tem_51_47" tareaid="Area0" re-direction="all" daxis="All" isdeletable="True" style="height: 40px; width: 135px; left: 467px; top: 367px; z-index: 8;">
+											<div class="yibuFrameContent tem_76_10  button_Style1  " style="overflow: visible; z-index: 1;">
+												<a target="_self" href="http://c491485806.scd.wezhan.cn/lxwm" class="w-button f-ellipsis" style="width: 133px; height: 38px; line-height: 38px; z-index: 1;">
+												    <span class="w-button-position" style="z-index: 1;">
+												        <em class="w-button-text f-ellipsis" style="z-index: 1;">
+												            <i class="mw-iconfont w-button-icon w-icon-hide" style="z-index: 1;"></i>立即咨询
+												        </em>
+												    </span>
+												</a>
+
+											</div>
+										</div>                
+									</div>
+									<div class="content-box-inner" style="background-image: url(index_files/-32936.jpg); background-position: 100% 0px; background-size: cover; background-color: rgb(255, 255, 255); opacity: 1; z-index: 1;"></div>
+
+									<div style="top: 0px; left: 0px; width: 1274px; height: 650px; z-index: 1000; display: none;"></div>
+								</div>
+
+
+
+    						</div>
+    					</div>
+    				</div>
+				    <!-- Bullet Navigator -->
+				    <div style="position: absolute; display: block; right: 16px; bottom: 16px; left: 617px; width: 40px; height: 15px;">
+				    	<div data-u="navigator" class="w-slide-btn-box " data-autocenter="1" data-scale-ratio="1" style="width: 40px; left: 0px; height: 15px; top: 0px;">
+				        <!-- bullet navigator item prototype -->
+				        
+				    	<div class="w-slide-btn" data-u="prototype" data-jssor-button="1" style="position: absolute; left: 0px; top: 0px;"></div>
+				    	<div class="w-slide-btn w-slide-btnav" data-u="prototype" data-jssor-button="1" style="position: absolute; left: 25px; top: 0px;"></div>
+				    </div>
+				</div>
+
+				<!-- 1Arrow Navigator -->
+				<div style="position: absolute; display: block; top: 316px; left: 10px; width: 18px; height: 18px;">
+					<span data-u="arrowleft" class="w-slide-arrowl slideArrow" data-autocenter="2" id="left_tem_51_47" data-jssor-button="1" data-scale-ratio="1" style="top: 0px; left: 0px;">
+				        <i class="w-itemicon mw-iconfont">넳</i>
+					</span>
+				</div>
+				<div style="position: absolute; display: block; top: 316px; right: 10px; width: 18px; height: 18px;">
+					<span data-u="arrowright" class="w-slide-arrowr slideArrow" data-autocenter="2" id="right_tem_51_47" data-jssor-button="1" data-scale-ratio="1" style="top: 0px; left: 0px;">
+				        <i class="w-itemicon mw-iconfont">넲</i>
+				    </span>
+				</div>
+			</div>
 <!--/w-slide-->
 <script type="text/javascript">
     tem_51_47_page = 1;
